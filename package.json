@@ -9,9 +9,9 @@
     "rule engine"
   ],
   "author": {
-      "name": "Chris Rabl",
-      "email": "chris@crabl.net",
-      "url": "https://github.com/crabl"
+    "name": "Chris Rabl",
+    "email": "chris@crabl.net",
+    "url": "https://github.com/crabl"
   },
   "contributors": [
     {
@@ -19,33 +19,43 @@
       "email": "mithunsatish@gmail.com"
     },
     {
-        "name": "Abdul Munim Kazia",
-        "email" : "munim2020@gmail.com",
-        "url" : "http://munimkazia.com"
+      "name": "Abdul Munim Kazia",
+      "email": "munim2020@gmail.com",
+      "url": "http://munimkazia.com"
     },
     {
-        "name": "ramanaveli2i",
-        "url" : "https://github.com/ramanaveli2i"
+      "name": "ramanaveli2i",
+      "url": "https://github.com/ramanaveli2i"
     }
   ],
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/crabl/angular-rules"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crabl/angular-rules"
   },
   "dependencies": {
     "underscore": ">= 1.7"
   },
   "devDependencies": {
-      "mocha": "1.6.0",
-      "chai": "*",
-      "colors" : "1.0.3"
+    "chai": "*",
+    "colors": "1.0.3",
+    "gulp": "^3.8.11",
+    "gulp-karma": "0.0.4",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-size": "^1.2.1",
+    "gulp-tslint": "^3.0.1-beta",
+    "gulp-typescript": "^2.7.3",
+    "jasmine-core": "^2.3.3",
+    "karma-jasmine": "^0.3.5",
+    "karma-mocha-reporter": "^1.0.2",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "mocha": "1.6.0"
   },
   "main": "index.js",
   "engines": {
     "node": ">= 0.4.x"
   },
   "scripts": {
-   "test": "./node_modules/mocha/bin/mocha"
+    "test": "gulp test"
   },
   "readmeFilename": "README.md"
 }
