@@ -1,9 +1,18 @@
 var gulp = require('gulp');
 var karma = require('gulp-karma');
+var wiredep = require('wiredep');
+
 var $ = require('gulp-load-plugins')();
 
+var testFiles = ['dist/*.js', 'test/*.spec.js'];
+var srcFiles = 'lib/**/*.ts';
+var wiredepOptions = {
+    dependencies: true,
+    devDependencies: true
+};
+
 gulp.task('build', function () {
-	return gulp.src('lib/**/*.ts')
+	return gulp.src(srcFiles)
 			   .pipe($.tslint())
 			   .pipe($.tslint.report('prose', { emitError: false }))
 			   .pipe($.typescript())
@@ -11,9 +20,15 @@ gulp.task('build', function () {
 			   .pipe($.size());
 });
 
+gulp.task('watch', function () {
+  gulp.watch(srcFiles, ['build']);
+});
+
 gulp.task('test', function() {
   // Be sure to return the stream 
-  return gulp.src(['dist/*.js', 'test/*.spec.js'])
+  var bowerDeps = wiredep(wiredepOptions);
+  
+  return gulp.src(bowerDeps.js.concat(testFiles))
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -22,15 +37,15 @@ gulp.task('test', function() {
       throw err;
     });
 });
- 
-//gulp.task('watch', function () {
-//	// build
-//});
-//
-//gulp.task('tdd', ['watch'], function() {
-//  gulp.src(testFiles)
-//    .pipe(karma({
-//      configFile: 'karma.conf.js',
-//      action: 'watch'
-//    }));
-//});
+
+gulp.task('tdd', ['watch'], function() {
+  var bowerDeps = wiredep(wiredepOptions);
+  
+  return gulp.src(bowerDeps.js.concat(testFiles))
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'watch'
+    }));
+});
+
+gulp.task('default', ['tdd']);
