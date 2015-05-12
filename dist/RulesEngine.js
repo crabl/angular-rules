@@ -1,12 +1,15 @@
 /// <reference path="../.tmp/typings/tsd.d.ts" />
 var angularRules;
 (function (angularRules) {
+    'use strict';
     var Rule = (function () {
         function Rule() {
         }
         Rule.prototype.condition = function () {
+            return;
         };
         Rule.prototype.consequence = function () {
+            return;
         };
         return Rule;
     })();
@@ -15,16 +18,22 @@ var angularRules;
         function Fact(fact) {
             if (fact) {
                 this.result = fact.result;
+                this.province = fact.province;
+                this.gst_hst_rate = fact.gst_hst_rate;
             }
         }
         return Fact;
     })();
     angularRules.Fact = Fact;
     var RuleEngine = (function () {
-        function RuleEngine(rules) {
-            this.rules = rules;
+        function RuleEngine() {
+            this.rules = [];
             this.activeRules = [];
         }
+        RuleEngine.prototype.init = function (rules) {
+            this.rules = rules;
+            this.sync();
+        };
         RuleEngine.prototype.sync = function () {
             // Filters out all inactive rules; if a rule does not
             // have an 'on' value, it assigns 'on' to be true.
@@ -68,6 +77,7 @@ var angularRules;
                     },
                     'when': function (outcome) {
                         if (outcome) {
+                            console.log(outcome);
                             _rules[i].consequence.call(session, API);
                         }
                         else {
@@ -87,10 +97,13 @@ var angularRules;
         RuleEngine.$inject = ['rules'];
         return RuleEngine;
     })();
-    angular.module('angularRules', []).service('RuleEngine', RuleEngine);
+    angular.module('angularRules', []).factory('RuleEngine', function () {
+        return RuleEngine;
+    });
 })(angularRules || (angularRules = {}));
 var angularRules;
 (function (angularRules) {
+    'use strict';
     var Rules = (function () {
         function Rules() {
             return [1];
@@ -98,4 +111,15 @@ var angularRules;
         return Rules;
     })();
     angular.module('angularRules.mocks', []).service('rules', Rules);
+})(angularRules || (angularRules = {}));
+var angularRules;
+(function (angularRules) {
+    'use strict';
+    var SampleService = (function () {
+        function SampleService(RulesEngine) {
+            return this;
+        }
+        SampleService.$inject = ['RulesEngine', 'TaxRules'];
+        return SampleService;
+    })();
 })(angularRules || (angularRules = {}));

@@ -1,27 +1,38 @@
 /// <reference path="../.tmp/typings/tsd.d.ts" />
 
 module angularRules {
+	'use strict';
+
 	export class Rule {
 		on: boolean;
 		priority: number;
 		
-		condition () {
-			
-		}
+		condition () { return; }
 		
-		consequence () {
-			
-		}
+		consequence () { return; }
 	}
 	
 	export class Fact {
 		result: boolean;
+		province: string;
+		gst_hst_rate: number;
 		
 		constructor(fact?: Fact) {
 			if (fact) {
 				this.result = fact.result;
+				this.province = fact.province;
+				this.gst_hst_rate = fact.gst_hst_rate;
 			}
 		}
+	}
+	
+	export interface IRuleEngine {
+		rules: Array<Rule>;
+		activeRules: Array<Rule>;
+		
+		init(rules: Array<Rule>);
+		sync(): void;
+		execute(fact: Fact, callback: Function);
 	}
 	
 	class RuleEngine {
@@ -30,15 +41,20 @@ module angularRules {
 		rules: Array<Rule>;
 		activeRules: Array<Rule>;
 		
-		constructor(rules: Array<Rule>) {
-			this.rules = rules;
+		constructor() {
+			this.rules = [];
 			this.activeRules = [];
+		}
+		
+		init(rules: Array<Rule>) {
+			this.rules = rules;
+			this.sync();
 		}
 		
 		sync(): void {
 			// Filters out all inactive rules; if a rule does not
 			// have an 'on' value, it assigns 'on' to be true.
-			this.activeRules = this.rules.filter((rule) => {
+			this.activeRules = this.rules.filter((rule: Rule) => {
 				if (typeof rule.on === 'undefined') {
 					rule.on = true;
 				}
@@ -47,7 +63,7 @@ module angularRules {
 			});
 			
 			// Sort the active rules according to their priority
-			this.activeRules.sort((a, b) => {
+			this.activeRules.sort((a: Rule, b: Rule) => {
 				if (a.priority && b.priority) {
 					return b.priority - a.priority;
 				}
@@ -85,6 +101,7 @@ module angularRules {
 					},
 					'when': function (outcome: boolean) {
 						if (outcome) {
+							console.log(outcome);
 							_rules[i].consequence.call(session, API);
 						} else {
 							API.next();
@@ -106,10 +123,14 @@ module angularRules {
 	
 	angular
 		.module('angularRules', [])
-		.service('RuleEngine', RuleEngine);
+		.factory('RuleEngine', function () {
+			return RuleEngine;
+		});
 }
 
 module angularRules {
+	'use strict'; 
+	
 	class Rules {
 		constructor() {
 			return [1];
@@ -119,5 +140,17 @@ module angularRules {
 	
 	angular
 		.module('angularRules.mocks', [])
-		.service('rules', Rules)
+		.service('rules', Rules);
+}
+
+module angularRules {
+	'use strict';
+	
+	class SampleService {
+		static $inject = ['RulesEngine', 'TaxRules'];
+		
+		constructor (RulesEngine: IRuleEngine) {
+				return this;	
+		}
+	}
 }
