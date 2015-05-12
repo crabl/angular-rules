@@ -1,7 +1,7 @@
 {
-  "name": "node-rules",
+  "name": "angular-rules",
   "version": "3.0.2",
-  "description": "Business Rules Engine for JavaScript",
+  "description": "Business Rules Engine for AngularJS",
   "keywords": [
     "bre",
     "rules",
@@ -9,10 +9,15 @@
     "rule engine"
   ],
   "author": {
-    "name": "Mithun Satheesh",
-    "email": "mithunsatish@gmail.com"
+      "name": "Chris Rabl",
+      "email": "chris@crabl.net",
+      "url": "https://github.com/crabl"
   },
   "contributors": [
+    {
+      "name": "Mithun Satheesh",
+      "email": "mithunsatish@gmail.com"
+    },
     {
         "name": "Abdul Munim Kazia",
         "email" : "munim2020@gmail.com",
@@ -23,9 +28,9 @@
         "url" : "https://github.com/ramanaveli2i"
     }
   ],
-  "repository" : { 
+  "repository" : {
       "type" : "git",
-      "url" : "https://github.com/mithunsatheesh/node-rules"
+      "url" : "https://github.com/crabl/angular-rules"
   },
   "dependencies": {
     "underscore": ">= 1.7"
